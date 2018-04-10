@@ -158,11 +158,8 @@ def writeColumnDoc(column, table):
             fk_filed = str(fk.referencedColumns[0].name).lower().replace("_", "-")
             fk_table = fk.referencedColumns[0].owner.name.lower().replace("_", "-")
 
-            text += "<br /><br />" if column.comment else "" + \
-                                                          "**foreign key** to column " + \
-                                                          "[**{}**](#{}-{}) ".format(fk_filed, fk_table, fk_filed) + \
-                                                          "on table " + \
-                                                          "[**{}**](#{}) ".format(fk_table, fk_table) + "."
+            text += "<br /><br />" if column.comment else "" + "foreign key to column " + "[**{}**](#{}-{}) ".format(
+                fk_filed, fk_table, fk_filed) + "on table " + "[**{}**](#{}) ".format(fk_table, fk_table) + "."
             break
 
     # finish
