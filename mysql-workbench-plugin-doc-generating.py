@@ -155,13 +155,15 @@ def writeColumnDoc(column, table):
     for fk in table.foreignKeys:
         if fk.columns[0].name == column.name:
             # redirect label a
-            fk_filed = fk.referencedColumns[0].name.lower().replace("_", "-")
-            fk_table_name = fk.referencedColumns[0].owner.name.lower().replace("_", "-")
+            fk_filed = fk.referencedColumns[0].name.lower()
+            rep_fk_filed = fk.referencedColumns[0].name.lower().replace("_", "-")
+
+            fk_table_name = fk.referencedColumns[0].owner.name.lower()
+            rep_fk_table_name = fk.referencedColumns[0].owner.name.lower().replace("_", "-")
 
             text += ("<br /><br />" if column.comment else "") + "foreign key to column " + "[**{}**](#{}-{}) ".format(
-                fk_filed, fk_table_name, fk_filed) + "on table " + "[**{}**](#{}) .".format(fk_table_name,
-                                                                                            fk_table_name.replace("-",
-                                                                                                                  "_"))
+                fk_filed, fk_table_name, rep_fk_filed) + "on table " + "[**{}**](#{}) .".format(fk_table_name,
+                                                                                                rep_fk_table_name)
             break
 
     # finish
