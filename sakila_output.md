@@ -16,7 +16,7 @@ Automatically generate documents. The latest form of document changes by 2010-09
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `actor_id` | SMALLINT | <a id='actor-actor-id'></a>PRIMARY, Auto increments, Not null |   |   |
+| <a id='actor-actor-id'></a>`actor_id` | SMALLINT | PRIMARY, Auto increments, Not null |   |   |
 | `first_name` | VARCHAR(45) | Not null |   |   |
 | `last_name` | VARCHAR(45) | Not null |   |   |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
@@ -42,7 +42,7 @@ Automatically generate documents. The latest form of document changes by 2010-09
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `address_id` | SMALLINT | <a id='address-address-id'></a>PRIMARY, Auto increments, Not null |   |   |
+| <a id='address-address-id'></a>`address_id` | SMALLINT | PRIMARY, Auto increments, Not null |   |   |
 | `address` | VARCHAR(50) | Not null |   |   |
 | `address2` | VARCHAR(50) |  | `NULL` |   |
 | `district` | VARCHAR(20) | Not null |   |   |
@@ -72,7 +72,7 @@ Automatically generate documents. The latest form of document changes by 2010-09
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `category_id` | TINYINT | <a id='category-category-id'></a>PRIMARY, Auto increments, Not null |   |   |
+| <a id='category-category-id'></a>`category_id` | TINYINT | PRIMARY, Auto increments, Not null |   |   |
 | `name` | VARCHAR(25) | Not null |   |   |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
 
@@ -96,7 +96,7 @@ Automatically generate documents. The latest form of document changes by 2010-09
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `city_id` | SMALLINT | <a id='city-city-id'></a>PRIMARY, Auto increments, Not null |   |   |
+| <a id='city-city-id'></a>`city_id` | SMALLINT | PRIMARY, Auto increments, Not null |   |   |
 | `city` | VARCHAR(50) | Not null |   |   |
 | `country_id` | SMALLINT | Not null |   |  [**foreign key** ](#country-country-id)  `to column country_id` on table `country`. |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
@@ -122,7 +122,7 @@ Automatically generate documents. The latest form of document changes by 2010-09
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `country_id` | SMALLINT | <a id='country-country-id'></a>PRIMARY, Auto increments, Not null |   |   |
+| <a id='country-country-id'></a>`country_id` | SMALLINT | PRIMARY, Auto increments, Not null |   |   |
 | `country` | VARCHAR(50) | Not null |   |   |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
 
@@ -148,7 +148,7 @@ Basic information about the customer like first and last name are stored in the 
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `customer_id` | SMALLINT | <a id='customer-customer-id'></a>PRIMARY, Auto increments, Not null |   |   |
+| <a id='customer-customer-id'></a>`customer_id` | SMALLINT | PRIMARY, Auto increments, Not null |   |   |
 | `store_id` | TINYINT | Not null |   |  [**foreign key** ](#store-store-id)  `to column store_id` on table `store`. |
 | `first_name` | VARCHAR(45) | Not null |   |   |
 | `last_name` | VARCHAR(45) | Not null |   |   |
@@ -181,7 +181,7 @@ Basic information about the customer like first and last name are stored in the 
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `film_id` | SMALLINT | <a id='film-film-id'></a>PRIMARY, Auto increments, Not null |   |   |
+| <a id='film-film-id'></a>`film_id` | SMALLINT | PRIMARY, Auto increments, Not null |   |   |
 | `title` | VARCHAR(255) | Not null |   |   |
 | `description` | TEXT |  |   |   |
 | `release_year` | YEAR |  |   |   |
@@ -218,8 +218,8 @@ Basic information about the customer like first and last name are stored in the 
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `actor_id` | SMALLINT | <a id='film-actor-actor-id'></a>PRIMARY, Not null |   |  [**foreign key** ](#actor-actor-id)  `to column actor_id` on table `actor`. |
-| `film_id` | SMALLINT | <a id='film-actor-actor-id'></a>PRIMARY, Not null |   |  [**foreign key** ](#film-film-id)  `to column film_id` on table `film`. |
+| <a id='film-actor-actor-id'></a>`actor_id` | SMALLINT | PRIMARY, Not null |   |  [**foreign key** ](#actor-actor-id)  `to column actor_id` on table `actor`. |
+| <a id='film-actor-actor-id'></a>`film_id` | SMALLINT | PRIMARY, Not null |   |  [**foreign key** ](#film-film-id)  `to column film_id` on table `film`. |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
 
 
@@ -244,8 +244,8 @@ Basic information about the customer like first and last name are stored in the 
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `film_id` | SMALLINT | <a id='film-category-film-id'></a>PRIMARY, Not null |   |  [**foreign key** ](#film-film-id)  `to column film_id` on table `film`. |
-| `category_id` | TINYINT | <a id='film-category-film-id'></a>PRIMARY, Not null |   |  [**foreign key** ](#category-category-id)  `to column category_id` on table `category`. |
+| <a id='film-category-film-id'></a>`film_id` | SMALLINT | PRIMARY, Not null |   |  [**foreign key** ](#film-film-id)  `to column film_id` on table `film`. |
+| <a id='film-category-film-id'></a>`category_id` | TINYINT | PRIMARY, Not null |   |  [**foreign key** ](#category-category-id)  `to column category_id` on table `category`. |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
 
 
@@ -270,7 +270,7 @@ Basic information about the customer like first and last name are stored in the 
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `film_id` | SMALLINT | <a id='film-text-film-id'></a>PRIMARY, Not null |   |  [**foreign key** ](#inventory-film-id)  `to column film_id` on table `inventory`. |
+| <a id='film-text-film-id'></a>`film_id` | SMALLINT | PRIMARY, Not null |   |  [**foreign key** ](#inventory-film-id)  `to column film_id` on table `inventory`. |
 | `title` | VARCHAR(255) | Not null |   |   |
 | `description` | TEXT |  |   |   |
 
@@ -296,7 +296,7 @@ Basic information about the customer like first and last name are stored in the 
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `inventory_id` | MEDIUMINT | <a id='inventory-inventory-id'></a>PRIMARY, Auto increments, Not null |   |   |
+| <a id='inventory-inventory-id'></a>`inventory_id` | MEDIUMINT | PRIMARY, Auto increments, Not null |   |   |
 | `film_id` | SMALLINT | Not null |   |  [**foreign key** ](#film-film-id)  `to column film_id` on table `film`. |
 | `store_id` | TINYINT | Not null |   |  [**foreign key** ](#store-store-id)  `to column store_id` on table `store`. |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
@@ -324,7 +324,7 @@ Basic information about the customer like first and last name are stored in the 
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `language_id` | TINYINT | <a id='language-language-id'></a>PRIMARY, Auto increments, Not null |   |   |
+| <a id='language-language-id'></a>`language_id` | TINYINT | PRIMARY, Auto increments, Not null |   |   |
 | `name` | CHAR(20) | Not null |   |   |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
 
@@ -348,7 +348,7 @@ Basic information about the customer like first and last name are stored in the 
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `payment_id` | SMALLINT | <a id='payment-payment-id'></a>PRIMARY, Auto increments, Not null |   |   |
+| <a id='payment-payment-id'></a>`payment_id` | SMALLINT | PRIMARY, Auto increments, Not null |   |   |
 | `customer_id` | SMALLINT | Not null |   |  [**foreign key** ](#customer-customer-id)  `to column customer_id` on table `customer`. |
 | `staff_id` | TINYINT | Not null |   |  [**foreign key** ](#staff-staff-id)  `to column staff_id` on table `staff`. |
 | `rental_id` | INT |  | `NULL` |  [**foreign key** ](#rental-rental-id)  `to column rental_id` on table `rental`. |
@@ -379,7 +379,7 @@ Basic information about the customer like first and last name are stored in the 
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `rental_id` | INT | <a id='rental-rental-id'></a>PRIMARY, Auto increments, Not null |   |   |
+| <a id='rental-rental-id'></a>`rental_id` | INT | PRIMARY, Auto increments, Not null |   |   |
 | `rental_date` | DATETIME | Not null, Unique |   |   |
 | `inventory_id` | MEDIUMINT | Not null, Unique |   |  [**foreign key** ](#inventory-inventory-id)  `to column inventory_id` on table `inventory`. |
 | `customer_id` | SMALLINT | Not null, Unique |   |  [**foreign key** ](#customer-customer-id)  `to column customer_id` on table `customer`. |
@@ -411,7 +411,7 @@ Basic information about the customer like first and last name are stored in the 
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `staff_id` | TINYINT | <a id='staff-staff-id'></a>PRIMARY, Auto increments, Not null |   |   |
+| <a id='staff-staff-id'></a>`staff_id` | TINYINT | PRIMARY, Auto increments, Not null |   |   |
 | `first_name` | VARCHAR(45) | Not null |   |   |
 | `last_name` | VARCHAR(45) | Not null |   |   |
 | `address_id` | SMALLINT | Not null |   |  [**foreign key** ](#address-address-id)  `to column address_id` on table `address`. |
@@ -445,7 +445,7 @@ Basic information about the customer like first and last name are stored in the 
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| `store_id` | TINYINT | <a id='store-store-id'></a>PRIMARY, Auto increments, Not null |   |   |
+| <a id='store-store-id'></a>`store_id` | TINYINT | PRIMARY, Auto increments, Not null |   |   |
 | `manager_staff_id` | TINYINT | Not null, Unique |   |  [**foreign key** ](#staff-staff-id)  `to column staff_id` on table `staff`. |
 | `address_id` | SMALLINT | Not null |   |  [**foreign key** ](#address-address-id)  `to column address_id` on table `address`. |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
