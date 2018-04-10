@@ -41,7 +41,7 @@ def documentation(diagram):
                                        , last_change_time)
 
     # Database Structure
-    title_text += "[Database Structure](./{}.db.png)\n\n".format(db_obj.name)
+    title_text += "![Database Structure](./{}.db.png)\n\n".format(db_obj.name)
 
     # merge text
     text = title_text + body_text
@@ -57,7 +57,7 @@ def writeTableDoc(table):
     last_change_date = time.mktime(time.strptime(table.owner.lastChangeDate, "%Y-%m-%d %H:%M"))
     G["LAST_CHANGE_DATE"].append(int(last_change_date))
 
-    text = "## **<a id='{}'></a>{}**\n\n".format(table.name.lower(), table.name.lower())
+    text = "## **<a id='{}'></a>{}**\n\n".format(table.name.lower().replace("_", "-"), table.name.lower())
 
     text += "---\n\n"
 
@@ -155,11 +155,13 @@ def writeColumnDoc(column, table):
     for fk in table.foreignKeys:
         if fk.columns[0].name == column.name:
             # redirect label a
-            fk_filed = str(fk.referencedColumns[0].name).lower().replace("_", "-")
-            fk_table = fk.referencedColumns[0].owner.name.lower().replace("_", "-")
+            fk_filed = fk.referencedColumns[0].name.lower().replace("_", "-")
+            fk_table_name = fk.referencedColumns[0].owner.name.lower().replace("_", "-")
 
             text += ("<br /><br />" if column.comment else "") + "foreign key to column " + "[**{}**](#{}-{}) ".format(
-                fk_filed, fk_table, fk_filed) + "on table " + "[**{}**](#{}) ".format(fk_table, fk_table) + "."
+                fk_filed, fk_table_name, fk_filed) + "on table " + "[**{}**](#{}) .".format(fk_table_name,
+                                                                                            fk_table_name.replace("-",
+                                                                                                                  "_"))
             break
 
     # finish
