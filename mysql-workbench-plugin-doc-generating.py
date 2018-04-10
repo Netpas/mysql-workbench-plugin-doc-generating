@@ -25,7 +25,7 @@ ModuleInfo = DefineModule("ModelDocumentation", author="Yao Lei", version="1.10"
 def documentation(diagram):
     db_obj = [figure for figure in diagram.figures if hasattr(figure, "table")][0].table.owner
     # db name
-    title_text = "# {} \n\n".format(db_obj.name)
+    title_text = "# {}\n\n".format(db_obj.name)
 
     body_text = ""
     for figure in diagram.figures:
@@ -33,12 +33,15 @@ def documentation(diagram):
             body_text += writeTableDoc(figure.table)
 
     # db comment
-    title_text += "*{}* \n\n".format(nl2br(db_obj.comment)) if db_obj.comment else "\n\n"
+    title_text += "*{}*\n\n".format(nl2br(db_obj.comment)) if db_obj.comment else "\n\n"
 
     # db last change date
     last_change_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(max(G["LAST_CHANGE_DATE"])))
-    title_text += "{} {}\n\n".format("Automatically generate documents. The latest form of document changes by"
-                                     , last_change_time)
+    title_text += "{} *{}*\n\n".format("Automatically generate documents. The latest form of document changes by"
+                                       , last_change_time)
+
+    # Database Structure
+    title_text += "[Database Structure](./{}.db.png)\n\n".format(db_obj.name)
 
     # merge text
     text = title_text + body_text
@@ -56,13 +59,13 @@ def writeTableDoc(table):
 
     text = "## **<a id='{}'></a>{}**\n\n".format(table.name.lower(), table.name.lower())
 
-    text += "--- \n\n"
+    text += "---\n\n"
 
-    text += "### *Description:* \n\n"
+    text += "### *Description:*\n\n"
 
     text += table.comment + "\n\n"
 
-    text += "### *Columns:* \n\n"
+    text += "### *Columns:*\n\n"
 
     text += "| Column | Data type | Attributes | Default | Description |\n| --- | --- | --- | --- | ---  |\n"
 
@@ -72,7 +75,7 @@ def writeTableDoc(table):
     text += "\n\n"
 
     if len(table.indices):
-        text += "### *Indices:* \n\n"
+        text += "### *Indices:*\n\n"
 
         text += "| Name | Columns | Type | Description |\n| --- | --- | --- | --- |\n"
 
@@ -154,9 +157,12 @@ def writeColumnDoc(column, table):
             # redirect label a
             fk_filed = str(fk.referencedColumns[0].name).lower().replace("_", "-")
             fk_table = fk.referencedColumns[0].owner.name.lower().replace("_", "-")
-            text += ("<br /><br />" if column.comment else "") + "[**foreign key** ](#{}-{})  `".format(
-                fk_table, fk_filed) + "to column " + \
-                    fk.referencedColumns[0].name + "` on table `" + fk.referencedColumns[0].owner.name + "`."
+
+            text += "<br /><br />" if column.comment else "" + \
+                                                          "[**foreign key** ](#{}-{})  to column `".format(
+                                                              fk_table, fk_filed) + \
+                                                          fk.referencedColumns[0].name + "` on table " + \
+                                                          "[**{}** ](#{}) ".format(fk_table, fk_table) + "."
             break
 
     # finish
