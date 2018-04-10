@@ -4,7 +4,7 @@ A Python script to generate documentation from MySQL Workbench ERR diagram.
 
 ## Installation
 
-* Download the latest release from [Github](https://github.com/letrunghieu/mysql-workbench-plugin-doc-generating/releases)
+* Download the latest release from [Github](https://github.com/Netpas/mysql-workbench-plugin-doc-generating/releases)
 * Extract the downloaded file and find a file named `mysql-workbench-plugin-doc-generating.py`
 * Open the MySQL Workbench
 * Navigate to menu **Scripting** > **Install Plugin/Module...**
