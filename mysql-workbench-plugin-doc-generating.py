@@ -85,20 +85,6 @@ def writeTableDoc(table):
 
 
 def writeColumnDoc(column, table):
-    # column name
-    text = "| `" + column.name + "`"
-
-    # column type name
-    if column.simpleType:
-        text += " | " + column.simpleType.name
-        # column max lenght if any
-        if column.length != -1:
-            text += "(" + str(column.length) + ")"
-    else:
-        text += " | "
-
-    text += " | "
-
     # column attributes
     attribs = []
 
@@ -121,7 +107,26 @@ def writeColumnDoc(column, table):
         # format label a
         table_name = table.name.lower().replace("_", "-")
         column_name = table.columns[0].name.lower().replace("_", "-")
-        attribs.append("<a id='{}-{}'></a>PRIMARY".format(table_name, column_name))
+        # column name
+        text = "| <a id='{}-{}'></a>`{}`".format(table_name, column_name, column.name)
+    else:
+        # column name
+        text = "| `{}`".format(column.name)
+
+    # column type name
+    if column.simpleType:
+        text += " | " + column.simpleType.name
+        # column max lenght if any
+        if column.length != -1:
+            text += "(" + str(column.length) + ")"
+    else:
+        text += " | "
+
+    text += " | "
+
+    # primary?
+    if isPrimary:
+        attribs.append("PRIMARY")
 
     # auto increment?
     if column.autoIncrement == 1:
