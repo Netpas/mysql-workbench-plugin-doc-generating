@@ -119,6 +119,8 @@ def writeColumnDoc(column, table):
     # column type name
     if column.simpleType:
         text += " | " + column.simpleType.name
+        if 'UNSIGNED' in column.flags:
+            text += ' '+ 'UNSIGNED'
         # column max lenght if any
         if column.length != -1:
             text += "(" + str(column.length) + ")"
