@@ -124,6 +124,10 @@ def writeColumnDoc(column, table):
         # column max lenght if any
         if column.length != -1:
             text += "(" + str(column.length) + ")"
+        if column.characterSetName:
+            text +=' ' + 'CHARACTER SET' +' ' +  column.characterSetName
+        if column.collationName:
+            text +=' ' +  'COLLATE' + ' ' + column.collationName
     else:
         text += " | "
 
@@ -152,6 +156,11 @@ def writeColumnDoc(column, table):
 
     # column description
     text += " | " + (nl2br(column.comment) if column.comment else " ")
+    if 'ENUM' in column.formattedType:
+        text +='`' +  column.formattedType[4:] + '`'
+    if 'SET' in column.formattedType:
+        text +='`' + column.formattedType[3:] + '`'
+    
 
     # foreign key
     for fk in table.foreignKeys:
@@ -171,6 +180,8 @@ def writeColumnDoc(column, table):
     # finish
     text += " |" + "\n"
     return text
+
+
 
 
 def writeIndexDoc(index):
