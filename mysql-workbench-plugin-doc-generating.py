@@ -152,6 +152,11 @@ def writeColumnDoc(column, table):
 
     # column description
     text += " | " + (nl2br(column.comment) if column.comment else " ")
+    if 'ENUM' in column.formattedType:
+        text +='`' +  column.formattedType[4:] + '`'
+    if 'SET' in column.formattedType:
+        text +='`' + column.formattedType[3:] + '`'
+    
 
     # foreign key
     for fk in table.foreignKeys:
@@ -171,6 +176,8 @@ def writeColumnDoc(column, table):
     # finish
     text += " |" + "\n"
     return text
+
+
 
 
 def writeIndexDoc(index):
