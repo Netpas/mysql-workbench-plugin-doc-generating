@@ -19,7 +19,7 @@ Automatically generate documents. The latest form of document changes by *2010-0
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
 | <a id='actor-actor-id'></a>`actor_id` | SMALLINT UNSIGNED | PRIMARY, Auto increments, Not null |   |   |
-| `first_name` | VARCHAR(45) | Not null |   |   |
+| `first_name` | VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_general_ci | Not null |   |   |
 | `last_name` | VARCHAR(45) | Not null |   |   |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
 
@@ -45,10 +45,10 @@ Automatically generate documents. The latest form of document changes by *2010-0
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
 | <a id='address-address-id'></a>`address_id` | SMALLINT UNSIGNED | PRIMARY, Auto increments, Not null |   |   |
-| `address` | VARCHAR(50) | Not null |   |   |
-| `address2` | VARCHAR(50) |  | `NULL` |   |
+| `address` | VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_bin | Not null |   |   |
+| `address2` | VARCHAR(50) CHARACTER SET koi8r COLLATE koi8r_bin |  | `NULL` |   |
 | `district` | VARCHAR(20) | Not null |   |   |
-| `city_id` | SMALLINT | Not null |   |  foreign key to column [**city_id**](#city-city-id) on table [**city**](#city) . |
+| `city_id` | SMALLINT UNSIGNED | Not null |   |  foreign key to column [**city_id**](#city-city-id) on table [**city**](#city) . |
 | `postal_code` | VARCHAR(10) |  | `NULL` |   |
 | `phone` | VARCHAR(20) | Not null |   |   |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
@@ -194,7 +194,7 @@ Basic information about the customer like first and last name are stored in the 
 | `length` | SMALLINT UNSIGNED |  | `NULL` |   |
 | `replacement_cost` | DECIMAL | Not null | `19.99` |   |
 | `rating` | ENUM |  | `'G'` |  `('G','PG','PG-13','R','NC-17')` |
-| `special_features` | SET |  |   |  `('Trailers', 'Commentaries', 'Deleted Scenes', 'Behind the Scenes')` |
+| `special_features` | SET |  |   |  `('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')` |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
 
 

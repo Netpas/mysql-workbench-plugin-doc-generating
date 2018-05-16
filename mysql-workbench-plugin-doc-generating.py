@@ -124,6 +124,10 @@ def writeColumnDoc(column, table):
         # column max lenght if any
         if column.length != -1:
             text += "(" + str(column.length) + ")"
+        if column.characterSetName:
+            text +=' ' + 'CHARACTER SET' +' ' +  column.characterSetName
+        if column.collationName:
+            text +=' ' +  'COLLATE' + ' ' + column.collationName
     else:
         text += " | "
 
