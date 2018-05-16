@@ -172,9 +172,8 @@ def writeColumnDoc(column, table):
             fk_table_name = fk.referencedColumns[0].owner.name.lower()
             rep_fk_table_name = fk.referencedColumns[0].owner.name.lower().replace("_", "-")
 
-            text += ("<br /><br />" if column.comment else "") + "foreign key to column " + "[**{}**](#{}-{}) ".format(
-                fk_filed, rep_fk_table_name, rep_fk_filed) + "on table " + "[**{}**](#{})".format(fk_table_name, rep_fk_table_name)
-
+            text += ("<br /><br />" if column.comment else "") +"REFERENCES" + "  " + "[**{}**](#{}) ".format(fk_table_name, rep_fk_table_name) + "(" + "[**{}**](#{}-{})".format(fk_filed,fk_table_name,rep_fk_filed) + ")"
+            
             if fk.updateRule != 'RESTRICT':
                 text += '  ' + 'ON UPDATE:' + fk.updateRule
             if fk.deleteRule != 'RESTRICT':
