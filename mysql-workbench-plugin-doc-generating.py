@@ -11,19 +11,21 @@ import grt
 import mforms
 
 G = {
-    "LAST_CHANGE_DATE": []  # tables last change time; type: int(timestamp)
+    "LAST_CHANGE_DATE": [],  # tables last change time; type: int(timestamp)
+    "DEFAULT_DATABASE":None
 }
 
 ModuleInfo = DefineModule("ModelDocumentation", author="Yao Lei", version="1.10",
                           description="Generate Markdown documentation from a model")
-
 
 # This plugin takes no arguments
 @ModuleInfo.plugin("Netpas", caption="Generate documentation (Markdown)",
                    description="description", input=[wbinputs.currentDiagram()], pluginMenu="Utilities")
 @ModuleInfo.export(grt.INT, grt.classes.db_Catalog)
 def documentation(diagram):
-    db_obj = [figure for figure in diagram.figures if hasattr(figure, "table")][0].table.owner
+
+    G["DEFAULT_DATABASE"]= [figure for figure in diagram.figures if hasattr(figure, "table")][0].table.owner
+    db_obj = G["DEFAULT_DATABASE"]
     # db name
     title_text = "# {}\n\n".format(db_obj.name)
 
@@ -51,41 +53,37 @@ def documentation(diagram):
     print("Documentation is copied to the clipboard.")
     return 0
 
-
 def writeTableDoc(table):
     # table last change date
     last_change_date = time.mktime(time.strptime(table.owner.lastChangeDate, "%Y-%m-%d %H:%M"))
     G["LAST_CHANGE_DATE"].append(int(last_change_date))
 
-    text = "## **<a id='{}'></a>{}**\n\n".format(table.name.lower().replace("_", "-"), table.name.lower())
+    text = ""
+    if G["DEFAULT_DATABASE"].name == table.owner.name:
+        text = "## **<a id='{}'></a>{}**\n\n".format(table.name.lower().replace("_", "-"), table.name.lower())
 
-    text += "---\n\n"
+        text += "---\n\n"
 
-    text += "### *Description:*\n\n"
+        text += "### *Description:*\n\n"
 
-    text += table.comment + "\n\n"
+        text += table.comment + "\n\n"
 
-    text += "### *Columns:*\n\n"
+        text += "### *Columns:*\n\n"
 
-    text += "| Column | Data type | Attributes | Default | Description |\n| --- | --- | --- | --- | ---  |\n"
+        text += "| Column | Data type | Attributes | Default | Description |\n| --- | --- | --- | --- | ---  |\n"
 
-    for column in table.columns:
-        text += writeColumnDoc(column, table)
+        for column in table.columns:
+            text += writeColumnDoc(column, table)
+        text += "\n\n"
+        if len(table.indices):
+            text += "### *Indices:*\n\n"
+            text += "| Name | Columns | Type | Description |\n| --- | --- | --- | --- |\n"
+
+            for index in table.indices:
+                text += writeIndexDoc(index)
 
     text += "\n\n"
-
-    if len(table.indices):
-        text += "### *Indices:*\n\n"
-
-        text += "| Name | Columns | Type | Description |\n| --- | --- | --- | --- |\n"
-
-        for index in table.indices:
-            text += writeIndexDoc(index)
-
-    text += "\n\n"
-
     return text
-
 
 def writeColumnDoc(column, table):
     # column attributes
@@ -172,9 +170,12 @@ def writeColumnDoc(column, table):
             fk_table_name = fk.referencedColumns[0].owner.name.lower()
             rep_fk_table_name = fk.referencedColumns[0].owner.name.lower().replace("_", "-")
 
-            text += ("<br /><br />" if column.comment else "") + "foreign key to column " + "[**{}**](#{}-{}) ".format(
-                fk_filed, rep_fk_table_name, rep_fk_filed) + "on table " + "[**{}**](#{}) .".format(fk_table_name,
-                                                                                                    rep_fk_table_name)
+            text += ("<br /><br />" if column.comment else "") +"REFERENCES" + "  " + "[**{}**](#{}) ".format(fk_table_name, rep_fk_table_name) + "(" + "[**{}**](#{}-{})".format(fk_filed,fk_table_name,rep_fk_filed) + ")"
+            
+            if fk.updateRule != 'RESTRICT':
+                text += '  ' + 'ON UPDATE' + ' ' + fk.updateRule
+            if fk.deleteRule != 'RESTRICT':
+                text += '  ' +  'ON DELETE' + ' ' + fk.deleteRule
             break
 
     # finish
