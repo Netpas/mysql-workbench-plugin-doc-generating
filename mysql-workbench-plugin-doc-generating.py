@@ -175,9 +175,9 @@ def writeColumnDoc(column, table):
             text += ("<br /><br />" if column.comment else "") +"REFERENCES" + "  " + "[**{}**](#{}) ".format(fk_table_name, rep_fk_table_name) + "(" + "[**{}**](#{}-{})".format(fk_filed,fk_table_name,rep_fk_filed) + ")"
             
             if fk.updateRule != 'RESTRICT':
-                text += '  ' + 'ON UPDATE:' + fk.updateRule
+                text += '  ' + 'ON UPDATE' + ' ' + fk.updateRule
             if fk.deleteRule != 'RESTRICT':
-                text += '  ' +  'ON DELETE: ' + fk.deleteRule
+                text += '  ' +  'ON DELETE' + ' ' + fk.deleteRule
             break
 
     # finish

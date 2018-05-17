@@ -2,35 +2,9 @@
 
 
 
-Automatically generate documents. The latest form of document changes by *2010-09-14 11:00:00*
+Automatically generate documents. The latest form of document changes by *2018-05-17 11:05:00*
 
 ![Database Structure](./sakila.db.png)
-
-## **<a id='actor'></a>actor**
-
----
-
-### *Description:*
-
-
-
-### *Columns:*
-
-| Column | Data type | Attributes | Default | Description |
-| --- | --- | --- | --- | ---  |
-| <a id='actor-actor-id'></a>`actor_id` | SMALLINT UNSIGNED | PRIMARY, Auto increments, Not null |   |   |
-| `first_name` | VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_general_ci | Not null |   |   |
-| `last_name` | VARCHAR(45) | Not null |   |   |
-| `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
-
-
-### *Indices:*
-
-| Name | Columns | Type | Description |
-| --- | --- | --- | --- |
-| PRIMARY | `actor_id` | PRIMARY |   |
-| idx_actor_last_name | `last_name` | INDEX |   |
-
 
 ## **<a id='address'></a>address**
 
@@ -62,30 +36,6 @@ Automatically generate documents. The latest form of document changes by *2010-0
 | idx_fk_city_id | `city_id` | INDEX |   |
 
 
-## **<a id='category'></a>category**
-
----
-
-### *Description:*
-
-
-
-### *Columns:*
-
-| Column | Data type | Attributes | Default | Description |
-| --- | --- | --- | --- | ---  |
-| <a id='category-category-id'></a>`category_id` | TINYINT UNSIGNED | PRIMARY, Auto increments, Not null |   |   |
-| `name` | VARCHAR(25) | Not null |   |   |
-| `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
-
-
-### *Indices:*
-
-| Name | Columns | Type | Description |
-| --- | --- | --- | --- |
-| PRIMARY | `category_id` | PRIMARY |   |
-
-
 ## **<a id='city'></a>city**
 
 ---
@@ -100,7 +50,7 @@ Automatically generate documents. The latest form of document changes by *2010-0
 | --- | --- | --- | --- | ---  |
 | <a id='city-city-id'></a>`city_id` | INT | PRIMARY, Not null |   |   |
 | `city` | FLOAT | Not null |   |   |
-| `country_id` | SMALLINT UNSIGNED | Not null |   |  REFERENCES  [**country**](#country) ([**country_id**](#country-country-id))  ON UPDATE:CASCADE |
+| `country_id` | SMALLINT UNSIGNED | Not null |   |  REFERENCES  [**country**](#country) ([**country_id**](#country-country-id))  ON UPDATE CASCADE |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
 
 
@@ -151,11 +101,11 @@ Basic information about the customer like first and last name are stored in the 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
 | <a id='customer-customer-id'></a>`customer_id` | SMALLINT UNSIGNED | PRIMARY, Auto increments, Not null |   |   |
-| `store_id` | TINYINT UNSIGNED | Not null |   |  REFERENCES  [**store**](#store) ([**store_id**](#store-store-id))  ON UPDATE:CASCADE |
+| `store_id` | TINYINT UNSIGNED | Not null |   |  REFERENCES  [**store**](#store) ([**store_id**](#store-store-id))  ON UPDATE CASCADE |
 | `first_name` | VARCHAR(45) | Not null |   |   |
 | `last_name` | VARCHAR(45) | Not null |   |   |
 | `email` | VARCHAR(50) |  | `NULL` |   |
-| `address_id` | SMALLINT UNSIGNED | Not null |   |  REFERENCES  [**address**](#address) ([**address_id**](#address-address-id))  ON UPDATE:CASCADE |
+| `address_id` | SMALLINT UNSIGNED | Not null |   |  REFERENCES  [**address**](#address) ([**address_id**](#address-address-id))  ON UPDATE CASCADE |
 | `active` |  | Not null | `TRUE` |   |
 | `create_date` | DATETIME | Not null |   |   |
 | `last_update` | TIMESTAMP |  | `CURRENT_TIMESTAMP` |   |
@@ -187,8 +137,8 @@ Basic information about the customer like first and last name are stored in the 
 | `title` | VARCHAR(255) | Not null |   |   |
 | `description` | TEXT |  |   |   |
 | `release_year` | YEAR |  |   |   |
-| `language_id` | TINYINT UNSIGNED | Not null |   |  REFERENCES  [**language**](#language) ([**language_id**](#language-language-id))  ON UPDATE:CASCADE |
-| `original_language_id` | TINYINT UNSIGNED |  | `NULL` |  REFERENCES  [**language**](#language) ([**language_id**](#language-language-id))  ON UPDATE:CASCADE |
+| `language_id` | TINYINT UNSIGNED | Not null |   |  REFERENCES  [**language**](#language) ([**language_id**](#language-language-id))  ON UPDATE CASCADE |
+| `original_language_id` | TINYINT UNSIGNED |  | `NULL` |  REFERENCES  [**language**](#language) ([**language_id**](#language-language-id))  ON UPDATE CASCADE |
 | `rental_duration` | TINYINT UNSIGNED | Not null | `3` |   |
 | `rental_rate` | DECIMAL | Not null | `4.99` |   |
 | `length` | SMALLINT UNSIGNED |  | `NULL` |   |
@@ -220,8 +170,8 @@ Basic information about the customer like first and last name are stored in the 
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| <a id='film-actor-actor-id'></a>`actor_id` | SMALLINT UNSIGNED | PRIMARY, Not null |   |  REFERENCES  [**actor**](#actor) ([**actor_id**](#actor-actor-id))  ON UPDATE:CASCADE |
-| <a id='film-actor-actor-id'></a>`film_id` | SMALLINT UNSIGNED | PRIMARY, Not null |   |  REFERENCES  [**film**](#film) ([**film_id**](#film-film-id))  ON UPDATE:CASCADE |
+| <a id='film-actor-actor-id'></a>`actor_id` | SMALLINT UNSIGNED | PRIMARY, Not null |   |   |
+| <a id='film-actor-actor-id'></a>`film_id` | SMALLINT UNSIGNED | PRIMARY, Not null |   |  REFERENCES  [**film**](#film) ([**film_id**](#film-film-id))  ON UPDATE CASCADE |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
 
 
@@ -231,7 +181,6 @@ Basic information about the customer like first and last name are stored in the 
 | --- | --- | --- | --- |
 | PRIMARY | `actor_id`, `film_id` | PRIMARY |   |
 | idx_fk_film_id | `film_id` | INDEX |   |
-| fk_film_actor_actor_idx | `actor_id` | INDEX |   |
 
 
 ## **<a id='film-category'></a>film_category**
@@ -246,8 +195,8 @@ Basic information about the customer like first and last name are stored in the 
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| <a id='film-category-film-id'></a>`film_id` | SMALLINT UNSIGNED | PRIMARY, Not null |   |  REFERENCES  [**film**](#film) ([**film_id**](#film-film-id))  ON UPDATE:CASCADE |
-| <a id='film-category-film-id'></a>`category_id` | TINYINT UNSIGNED | PRIMARY, Not null |   |  REFERENCES  [**category**](#category) ([**category_id**](#category-category-id))  ON UPDATE:CASCADE |
+| <a id='film-category-film-id'></a>`film_id` | SMALLINT UNSIGNED | PRIMARY, Not null |   |  REFERENCES  [**film**](#film) ([**film_id**](#film-film-id))  ON UPDATE CASCADE |
+| <a id='film-category-film-id'></a>`category_id` | TINYINT UNSIGNED | PRIMARY, Not null |   |   |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
 
 
@@ -256,7 +205,6 @@ Basic information about the customer like first and last name are stored in the 
 | Name | Columns | Type | Description |
 | --- | --- | --- | --- |
 | PRIMARY | `film_id`, `category_id` | PRIMARY |   |
-| fk_film_category_category_idx | `category_id` | INDEX |   |
 | fk_film_category_film_idx | `film_id` | INDEX |   |
 
 
@@ -272,7 +220,7 @@ Basic information about the customer like first and last name are stored in the 
 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
-| <a id='film-text-film-id'></a>`film_id` | SMALLINT UNSIGNED | PRIMARY, Not null |   |  REFERENCES  [**inventory**](#inventory) ([**film_id**](#inventory-film-id))  ON UPDATE:NO ACTION  ON DELETE: NO ACTION |
+| <a id='film-text-film-id'></a>`film_id` | SMALLINT UNSIGNED | PRIMARY, Not null |   |  REFERENCES  [**inventory**](#inventory) ([**film_id**](#inventory-film-id))  ON UPDATE NO ACTION  ON DELETE NO ACTION |
 | `title` | VARCHAR(255) | Not null |   |   |
 | `description` | TEXT |  |   |   |
 
@@ -299,8 +247,8 @@ Basic information about the customer like first and last name are stored in the 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
 | <a id='inventory-inventory-id'></a>`inventory_id` | MEDIUMINT UNSIGNED | PRIMARY, Auto increments, Not null |   |   |
-| `film_id` | SMALLINT UNSIGNED | Not null |   |  REFERENCES  [**film**](#film) ([**film_id**](#film-film-id))  ON UPDATE:CASCADE |
-| `store_id` | TINYINT UNSIGNED | Not null |   |  REFERENCES  [**store**](#store) ([**store_id**](#store-store-id))  ON UPDATE:CASCADE |
+| `film_id` | SMALLINT UNSIGNED | Not null |   |  REFERENCES  [**film**](#film) ([**film_id**](#film-film-id))  ON UPDATE CASCADE |
+| `store_id` | TINYINT UNSIGNED | Not null |   |  REFERENCES  [**store**](#store) ([**store_id**](#store-store-id))  ON UPDATE CASCADE |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
 
 
@@ -351,9 +299,9 @@ Basic information about the customer like first and last name are stored in the 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
 | <a id='payment-payment-id'></a>`payment_id` | SMALLINT UNSIGNED | PRIMARY, Auto increments, Not null |   |   |
-| `customer_id` | SMALLINT UNSIGNED | Not null |   |  REFERENCES  [**customer**](#customer) ([**customer_id**](#customer-customer-id))  ON UPDATE:CASCADE |
-| `staff_id` | TINYINT UNSIGNED | Not null |   |  REFERENCES  [**staff**](#staff) ([**staff_id**](#staff-staff-id))  ON UPDATE:CASCADE |
-| `rental_id` | INT |  | `NULL` |  REFERENCES  [**rental**](#rental) ([**rental_id**](#rental-rental-id))  ON UPDATE:CASCADE  ON DELETE: SET NULL |
+| `customer_id` | SMALLINT UNSIGNED | Not null |   |  REFERENCES  [**customer**](#customer) ([**customer_id**](#customer-customer-id))  ON UPDATE CASCADE |
+| `staff_id` | TINYINT UNSIGNED | Not null |   |  REFERENCES  [**staff**](#staff) ([**staff_id**](#staff-staff-id))  ON UPDATE CASCADE |
+| `rental_id` | INT |  | `NULL` |   |
 | `amount` | DECIMAL | Not null |   |   |
 | `payment_date` | DATETIME | Not null |   |   |
 | `last_update` | TIMESTAMP |  | `CURRENT_TIMESTAMP` |   |
@@ -366,39 +314,6 @@ Basic information about the customer like first and last name are stored in the 
 | PRIMARY | `payment_id` | PRIMARY |   |
 | idx_fk_staff_id | `staff_id` | INDEX |   |
 | idx_fk_customer_id | `customer_id` | INDEX |   |
-| fk_payment_rental_idx | `rental_id` | INDEX |   |
-
-
-## **<a id='rental'></a>rental**
-
----
-
-### *Description:*
-
-
-
-### *Columns:*
-
-| Column | Data type | Attributes | Default | Description |
-| --- | --- | --- | --- | ---  |
-| <a id='rental-rental-id'></a>`rental_id` | INT | PRIMARY, Auto increments, Not null |   |   |
-| `rental_date` | DATETIME | Not null, Unique |   |   |
-| `inventory_id` | MEDIUMINT UNSIGNED | Not null, Unique |   |  REFERENCES  [**inventory**](#inventory) ([**inventory_id**](#inventory-inventory-id))  ON UPDATE:CASCADE |
-| `customer_id` | SMALLINT UNSIGNED | Not null, Unique |   |  REFERENCES  [**customer**](#customer) ([**customer_id**](#customer-customer-id))  ON UPDATE:CASCADE |
-| `return_date` | DATETIME |  |   |   |
-| `staff_id` | TINYINT UNSIGNED | Not null |   |  REFERENCES  [**staff**](#staff) ([**staff_id**](#staff-staff-id))  ON UPDATE:CASCADE |
-| `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
-
-
-### *Indices:*
-
-| Name | Columns | Type | Description |
-| --- | --- | --- | --- |
-| PRIMARY | `rental_id` | PRIMARY |   |
-| idx_rental | `rental_date`, `inventory_id`, `customer_id` | UNIQUE |   |
-| idx_fk_inventory_id | `inventory_id` | INDEX |   |
-| idx_fk_customer_id | `customer_id` | INDEX |   |
-| idx_fk_staff_id | `staff_id` | INDEX |   |
 
 
 ## **<a id='staff'></a>staff**
@@ -416,10 +331,10 @@ Basic information about the customer like first and last name are stored in the 
 | <a id='staff-staff-id'></a>`staff_id` | TINYINT UNSIGNED | PRIMARY, Auto increments, Not null |   |   |
 | `first_name` | VARCHAR(45) | Not null |   |   |
 | `last_name` | VARCHAR(45) | Not null |   |   |
-| `address_id` | SMALLINT UNSIGNED | Not null |   |  REFERENCES  [**address**](#address) ([**address_id**](#address-address-id))  ON UPDATE:CASCADE |
+| `address_id` | SMALLINT UNSIGNED | Not null |   |  REFERENCES  [**address**](#address) ([**address_id**](#address-address-id))  ON UPDATE CASCADE |
 | `picture` | BLOB |  |   |   |
 | `email` | VARCHAR(50) |  | `NULL` |   |
-| `store_id` | TINYINT UNSIGNED | Not null |   |  REFERENCES  [**store**](#store) ([**store_id**](#store-store-id))  ON UPDATE:CASCADE |
+| `store_id` | TINYINT UNSIGNED | Not null |   |  REFERENCES  [**store**](#store) ([**store_id**](#store-store-id))  ON UPDATE CASCADE |
 | `active` |  | Not null | `TRUE` |   |
 | `username` | VARCHAR(16) | Not null |   |   |
 | `password` | VARCHAR(40) |  | `NULL` |   |
@@ -448,8 +363,8 @@ Basic information about the customer like first and last name are stored in the 
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
 | <a id='store-store-id'></a>`store_id` | TINYINT UNSIGNED | PRIMARY, Auto increments, Not null |   |   |
-| `manager_staff_id` | TINYINT UNSIGNED | Not null, Unique |   |  REFERENCES  [**staff**](#staff) ([**staff_id**](#staff-staff-id))  ON UPDATE:CASCADE |
-| `address_id` | SMALLINT UNSIGNED | Not null |   |  REFERENCES  [**address**](#address) ([**address_id**](#address-address-id))  ON UPDATE:CASCADE |
+| `manager_staff_id` | TINYINT UNSIGNED | Not null, Unique |   |  REFERENCES  [**staff**](#staff) ([**staff_id**](#staff-staff-id))  ON UPDATE CASCADE |
+| `address_id` | SMALLINT UNSIGNED | Not null |   |  REFERENCES  [**address**](#address) ([**address_id**](#address-address-id))  ON UPDATE CASCADE |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
 
 
