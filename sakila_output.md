@@ -2,9 +2,34 @@
 
 
 
-Automatically generate documents. The latest form of document changes by *2018-05-17 11:05:00*
+Automatically generate documents. The latest form of document changes by *2018-05-17 16:34:00*
 
 ![Database Structure](./sakila.db.png)
+
+## **<a id='actor'></a>actor**
+
+---
+
+### *Description:*
+
+
+
+### *Columns:*
+
+| Column | Data type | Attributes | Default | Description |
+| --- | --- | --- | --- | ---  |
+| <a id='actor-actor-id'></a>`actor_id` | INT | PRIMARY, Not null |   |   |
+| `first_name` | VARCHAR(45) |  |   |   |
+| `last_name` | VARCHAR(45) |  |   |   |
+| `last_update` | VARCHAR(45) |  |   |   |
+
+
+### *Indices:*
+
+| Name | Columns | Type | Description |
+| --- | --- | --- | --- |
+| PRIMARY | `actor_id` | PRIMARY |   |
+
 
 ## **<a id='address'></a>address**
 
