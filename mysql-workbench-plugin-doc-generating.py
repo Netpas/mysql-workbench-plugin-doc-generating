@@ -15,7 +15,7 @@ G = {
     "LAST_CHANGE_DATE": [],  # tables last change time; type: int(timestamp)
     "DEFAULT_DATABASE": None
 }
-ModuleInfo = DefineModule("ModelDocumentation", author="Yao Lei", version="1.10",
+ModuleInfo = DefineModule("ModelDocumentation", author="NETPAS Developers", version="1.2.0",
                           description="Generate Markdown documentation from a model")
 # This plugin takes no arguments
 @ModuleInfo.plugin("Netpas", caption="Generate documentation (Markdown)",
@@ -107,10 +107,8 @@ def writeColumnDoc(column, table):
         # column max lenght if any
         if column.length != -1:
             text += "(" + str(column.length) + ")"
-        if column.characterSetName:
-            text +=' ' + 'CHARACTER SET' +' ' +  column.characterSetName
-        if column.collationName:
-            text +=' ' +  'COLLATE' + ' ' + column.collationName
+        if column.characterSetName or column.collationName:
+            text +=' ' + 'BINARY'
     else:
         text += " | "
     text += " | "

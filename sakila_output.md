@@ -44,8 +44,8 @@ Automatically generate documents. The latest form of document changes by *2018-0
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
 | <a id='address-address-id'></a>`address_id` | SMALLINT UNSIGNED | PRIMARY, Auto increments, Not null |   |   |
-| `address` | VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_bin | Not null |   |   |
-| `address2` | VARCHAR(50) CHARACTER SET koi8r COLLATE koi8r_bin |  | `NULL` |   |
+| `address` | VARCHAR(50) BINARY | Not null |   |   |
+| `address2` | VARCHAR(50) BINARY |  | `NULL` |   |
 | `district` | VARCHAR(20) | Not null |   |   |
 | `city_id` | SMALLINT UNSIGNED | Not null |   |  REFERENCES  [**city**](#city) ([**city_id**](#city-city-id)) |
 | `postal_code` | VARCHAR(10) |  | `NULL` |   |
