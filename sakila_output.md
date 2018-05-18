@@ -44,8 +44,8 @@ Automatically generate documents. The latest form of document changes by *2018-0
 | Column | Data type | Attributes | Default | Description |
 | --- | --- | --- | --- | ---  |
 | <a id='address-address-id'></a>`address_id` | SMALLINT UNSIGNED | PRIMARY, Auto increments, Not null |   |   |
-| `address` | VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_bin | Not null |   |   |
-| `address2` | VARCHAR(50) CHARACTER SET koi8r COLLATE koi8r_bin |  | `NULL` |   |
+| `address` | VARCHAR(50) BINARY | Not null |   |   |
+| `address2` | VARCHAR(50) BINARY |  | `NULL` |   |
 | `district` | VARCHAR(20) | Not null |   |   |
 | `city_id` | SMALLINT UNSIGNED | Not null |   |  REFERENCES  [**city**](#city) ([**city_id**](#city-city-id)) |
 | `postal_code` | VARCHAR(10) |  | `NULL` |   |
@@ -168,8 +168,8 @@ Basic information about the customer like first and last name are stored in the 
 | `rental_rate` | DECIMAL | Not null | `4.99` |   |
 | `length` | SMALLINT UNSIGNED |  | `NULL` |   |
 | `replacement_cost` | DECIMAL | Not null | `19.99` |   |
-| `rating` | ENUM |  | `'G'` |  `('G','PG','PG-13','R','NC-17')` |
-| `special_features` | SET |  |   |  `('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')` |
+| `rating` | ENUM |  | `G` |  (  `G`, `PG`, `PG-13`, `R`, `NC-17`  ) |
+| `special_features` | SET |  |   |  (  `Trailers`, `Commentaries`, `Deleted Scenes`, `Behind the Scenes`  ) |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
 
 

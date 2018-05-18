@@ -12,10 +12,11 @@ import mforms
 
 
 G = {
-    "LAST_CHANGE_DATE": [],  # tables last change time; type: int(timestamp)
-    "DEFAULT_DATABASE": None
+    "LAST_CHANGE_DATE" : [],  # tables last change time; type: int(timestamp)
+    "DEFAULT_DATABASE" : None,
+    
 }
-ModuleInfo = DefineModule("ModelDocumentation", author="Yao Lei", version="1.10",
+ModuleInfo = DefineModule("ModelDocumentation", author="NETPAS Developers", version="1.2.0",
                           description="Generate Markdown documentation from a model")
 # This plugin takes no arguments
 @ModuleInfo.plugin("Netpas", caption="Generate documentation (Markdown)",
@@ -27,12 +28,15 @@ def documentation(diagram):
     # db name
     title_text = "# {}\n\n".format(db_obj.name)
     table_text = ""
-    view_text = "# *Views*\n\n"
+    view_text = ""
+    
     for figure in diagram.figures:
         if hasattr(figure, "table") and figure.table:
             table_text += writeTableDoc(figure.table)
         if hasattr(figure,"view") and figure.view:
             view_text += writeViewDoc(figure.view)
+    if view_text:
+        view_text = "# *Views*\n\n" + view_text
     # db comment 
     title_text += "*{}*\n\n".format(nl2br(db_obj.comment)) if db_obj.comment else "\n\n"
     # db last change date
@@ -107,10 +111,8 @@ def writeColumnDoc(column, table):
         # column max lenght if any
         if column.length != -1:
             text += "(" + str(column.length) + ")"
-        if column.characterSetName:
-            text +=' ' + 'CHARACTER SET' +' ' +  column.characterSetName
-        if column.collationName:
-            text +=' ' +  'COLLATE' + ' ' + column.collationName
+        if  column.collationName.endswith("_bin"):
+            text +=' ' + 'BINARY'
     else:
         text += " | "
     text += " | "
@@ -128,13 +130,25 @@ def writeColumnDoc(column, table):
         attribs.append("Unique")
     text += ", ".join(attribs)
     # column default value
-    text += " | " + (("`" + column.defaultValue + "`") if column.defaultValue else " ")
+    text += " | " + (("`" + column.defaultValue.replace("\'","") + "`") if column.defaultValue else " ")
     # column description
     text += " | " + (nl2br(column.comment) if column.comment else " ")
     if 'ENUM' in column.formattedType:
-        text +='`' +  column.formattedType[4:] + '`'
+        # text+=str(column.formattedType[4:])
+        text += "(  "
+        values = column.formattedType[4:][2:-2]
+        values = values.replace("','","`, `")
+        values = '`' + values + '`'
+        text += values
+        text += "  )"
+            # value.replace()
     if 'SET' in column.formattedType:
-        text +='`' + column.formattedType[3:] + '`'    
+        text += "(  "
+        values = column.formattedType[3:][2:-2]
+        values = values.replace("','","`, `")
+        values = '`' + values + '`'
+        text += values
+        text += "  )"
     # foreign key
     for fk in table.foreignKeys:
         if fk.columns[0].name == column.name:
@@ -169,13 +183,15 @@ def writeIndexDoc(index):
 
 
 def writeViewDoc(view):
-    text = "## **<a id='{}'></a>{}**\n\n".format(view.name.lower().replace("_", "-"), view.name.lower())
-    text += "---\n\n"
-    text += "### *Description:*\n\n"
-    text += view.comment + "\n\n"
-    text +=  "### *Sql:*\n\n"
-    text += "```sql" + "\n" + view.sqlDefinition + "\n" + "```" + "\n"  
-    return text
+    text = ""
+    if G["DEFAULT_DATABASE"].name == view.owner.name:
+        text = "## **<a id='{}'></a>{}**\n\n".format(view.name.lower().replace("_", "-"), view.name.lower())
+        text += "---\n\n"
+        text += "### *Description:*\n\n"
+        text += view.comment + "\n\n"
+        text +=  "### *Sql:*\n\n"
+        text += "```sql" + "\n" + view.sqlDefinition + "\n" + "```" + "\n"  
+    return text 
 
 
 def nl2br(text):
