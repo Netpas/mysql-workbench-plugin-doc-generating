@@ -12,8 +12,9 @@ import mforms
 
 
 G = {
-    "LAST_CHANGE_DATE": [],  # tables last change time; type: int(timestamp)
-    "DEFAULT_DATABASE": None,
+    "LAST_CHANGE_DATE" : [],  # tables last change time; type: int(timestamp)
+    "DEFAULT_DATABASE" : None,
+    
 }
 ModuleInfo = DefineModule("ModelDocumentation", author="NETPAS Developers", version="1.2.0",
                           description="Generate Markdown documentation from a model")
@@ -27,12 +28,15 @@ def documentation(diagram):
     # db name
     title_text = "# {}\n\n".format(db_obj.name)
     table_text = ""
-    view_text = "# *Views*\n\n"
+    view_text = ""
+    
     for figure in diagram.figures:
         if hasattr(figure, "table") and figure.table:
             table_text += writeTableDoc(figure.table)
         if hasattr(figure,"view") and figure.view:
             view_text += writeViewDoc(figure.view)
+    if view_text:
+        view_text = "# *Views*\n\n" + view_text
     # db comment 
     title_text += "*{}*\n\n".format(nl2br(db_obj.comment)) if db_obj.comment else "\n\n"
     # db last change date
@@ -181,13 +185,15 @@ def writeIndexDoc(index):
 
 
 def writeViewDoc(view):
-    text = "## **<a id='{}'></a>{}**\n\n".format(view.name.lower().replace("_", "-"), view.name.lower())
-    text += "---\n\n"
-    text += "### *Description:*\n\n"
-    text += view.comment + "\n\n"
-    text +=  "### *Sql:*\n\n"
-    text += "```sql" + "\n" + view.sqlDefinition + "\n" + "```" + "\n"  
-    return text
+    text = ""
+    if G["DEFAULT_DATABASE"].name == view.owner.name:
+        text = "## **<a id='{}'></a>{}**\n\n".format(view.name.lower().replace("_", "-"), view.name.lower())
+        text += "---\n\n"
+        text += "### *Description:*\n\n"
+        text += view.comment + "\n\n"
+        text +=  "### *Sql:*\n\n"
+        text += "```sql" + "\n" + view.sqlDefinition + "\n" + "```" + "\n"  
+    return text 
 
 
 def nl2br(text):
