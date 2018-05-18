@@ -136,21 +136,19 @@ def writeColumnDoc(column, table):
     if 'ENUM' in column.formattedType:
         # text+=str(column.formattedType[4:])
         text += "(  "
-        value_list = column.formattedType[4:][2:-2].split(',')
-        for value in value_list:
-            value = value.replace("'","")
-            text += " `" + value + "`, "
-        text = text[:-2]
+        values = column.formattedType[4:][2:-2]
+        values = values.replace("','","`, `")
+        values = '`' + values + '`'
+        text += values
         text += "  )"
             # value.replace()
     if 'SET' in column.formattedType:
         text += "(  "
-        value_list = column.formattedType[3:][2:-2].split(',')
-        for value in value_list:
-            value = value.replace("'","")
-            text += " `" + value + "`, "
-        text = text[:-2]
-        text += "  )"    
+        values = column.formattedType[3:][2:-2]
+        values = values.replace("','","`, `")
+        values = '`' + values + '`'
+        text += values
+        text += "  )"
     # foreign key
     for fk in table.foreignKeys:
         if fk.columns[0].name == column.name:

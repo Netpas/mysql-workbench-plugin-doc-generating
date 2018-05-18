@@ -2,7 +2,7 @@
 
 
 
-Automatically generate documents. The latest form of document changes by *2018-05-17 16:34:00*
+Automatically generate documents. The latest form of document changes by *2018-05-17 11:05:00*
 
 ![Database Structure](./sakila.db.png)
 
@@ -168,8 +168,8 @@ Basic information about the customer like first and last name are stored in the 
 | `rental_rate` | DECIMAL | Not null | `4.99` |   |
 | `length` | SMALLINT UNSIGNED |  | `NULL` |   |
 | `replacement_cost` | DECIMAL | Not null | `19.99` |   |
-| `rating` | ENUM |  | `G` |  (   `G`,  `PG`,  `PG-13`,  `R`,  `NC-17`  ) |
-| `special_features` | SET |  |   |  (   `Trailers`,  `Commentaries`,  `Deleted Scenes`,  `Behind the Scenes`  ) |
+| `rating` | ENUM |  | `G` |  (  `G`,`PG`,`PG-13`,`R`,`NC-17`  ) |
+| `special_features` | SET |  |   |  (  `Trailers`,`Commentaries`,`Deleted Scenes`,`Behind the Scenes`  ) |
 | `last_update` | TIMESTAMP | Not null | `CURRENT_TIMESTAMP` |   |
 
 
