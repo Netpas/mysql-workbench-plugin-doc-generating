@@ -12,7 +12,7 @@ import mforms
 
 G = {
     "LAST_CHANGE_DATE": [],  # tables last change time; type: int(timestamp)
-    "DEFAULT_DATABASE":None
+    "DEFAULT_DATABASE": None
 }
 
 ModuleInfo = DefineModule("ModelDocumentation", author="Yao Lei", version="1.10",
@@ -23,7 +23,6 @@ ModuleInfo = DefineModule("ModelDocumentation", author="Yao Lei", version="1.10"
                    description="description", input=[wbinputs.currentDiagram()], pluginMenu="Utilities")
 @ModuleInfo.export(grt.INT, grt.classes.db_Catalog)
 def documentation(diagram):
-
     G["DEFAULT_DATABASE"]= [figure for figure in diagram.figures if hasattr(figure, "table")][0].table.owner
     db_obj = G["DEFAULT_DATABASE"]
     # db name
@@ -34,7 +33,13 @@ def documentation(diagram):
         if hasattr(figure, "table") and figure.table:
             body_text += writeTableDoc(figure.table)
 
-    # db comment
+    body_text += "# Views\n\n"
+   
+    for figure in diagram.figures:
+        if hasattr(figure,"view") and figure.view:
+            body_text += writeViewDoc(figure.view)
+
+    # db comment 
     title_text += "*{}*\n\n".format(nl2br(db_obj.comment)) if db_obj.comment else "\n\n"
 
     # db last change date
@@ -57,7 +62,6 @@ def writeTableDoc(table):
     # table last change date
     last_change_date = time.mktime(time.strptime(table.owner.lastChangeDate, "%Y-%m-%d %H:%M"))
     G["LAST_CHANGE_DATE"].append(int(last_change_date))
-
     text = ""
     if G["DEFAULT_DATABASE"].name == table.owner.name:
         text = "## **<a id='{}'></a>{}**\n\n".format(table.name.lower().replace("_", "-"), table.name.lower())
@@ -182,9 +186,6 @@ def writeColumnDoc(column, table):
     text += " |" + "\n"
     return text
 
-
-
-
 def writeIndexDoc(index):
     # index name
     text = "| " + index.name
@@ -200,6 +201,22 @@ def writeIndexDoc(index):
 
     # finish
     text += " |\n"
+
+    return text
+
+def writeViewDoc(view):
+
+    text = "## **<a id='{}'></a>{}**\n\n".format(view.name.lower().replace("_", "-"), view.name.lower())
+
+    text += "---\n\n"
+
+    text += "### *Description:*\n\n"
+
+    text += view.comment + "\n\n"
+
+    text += "### *Sql:*\n\n"
+
+    text += view.sqlDefinition + "\n\n"
 
     return text
 
