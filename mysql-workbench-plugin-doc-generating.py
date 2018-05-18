@@ -126,13 +126,27 @@ def writeColumnDoc(column, table):
         attribs.append("Unique")
     text += ", ".join(attribs)
     # column default value
-    text += " | " + (("`" + column.defaultValue + "`") if column.defaultValue else " ")
+    text += " | " + (("`" + column.defaultValue.replace("\'","") + "`") if column.defaultValue else " ")
     # column description
     text += " | " + (nl2br(column.comment) if column.comment else " ")
     if 'ENUM' in column.formattedType:
-        text += '`' + column.formattedType[4:] + '`'
+        # text+=str(column.formattedType[4:])
+        text += "(  "
+        value_list = column.formattedType[4:][1:-2].split(',')
+        for value in value_list:
+            value = value.replace("\'","")
+            text += " `" + value + "`, "
+        text = text[:-2]
+        text += "  )"
+            # value.replace()
     if 'SET' in column.formattedType:
-        text +='`' + column.formattedType[3:] + '`'    
+        text += "(  "
+        value_list = column.formattedType[3:][1:-2].split(',')
+        for value in value_list:
+            value = value.replace("\'","")
+            text += " `" + value + "`, "
+        text = text[:-2]
+        text += "  )"    
     # foreign key
     for fk in table.foreignKeys:
         if fk.columns[0].name == column.name:
