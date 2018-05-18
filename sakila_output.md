@@ -2,7 +2,7 @@
 
 
 
-Automatically generate documents. The latest form of document changes by *2018-05-17 16:34:00*
+Automatically generate documents. The latest form of document changes by *2018-05-17 11:05:00*
 
 ![Database Structure](./sakila.db.png)
 
@@ -402,7 +402,7 @@ Basic information about the customer like first and last name are stored in the 
 | idx_fk_address_id | `address_id` | INDEX |   |
 
 
-# Views
+# *Views*
 
 ## **<a id='actor-info'></a>actor_info**
 
