@@ -414,6 +414,7 @@ This is a view for actor table.
 
 ### *Sql:*
 
+```sql
 --
 -- View structure for view `actor_info`
 --
@@ -445,7 +446,7 @@ LEFT JOIN sakila.film_category fc
 LEFT JOIN sakila.category c
   ON fc.category_id = c.category_id
 GROUP BY a.actor_id, a.first_name, a.last_name
-
+```
 ## **<a id='customer-list'></a>customer_list**
 
 ---
@@ -456,6 +457,7 @@ GROUP BY a.actor_id, a.first_name, a.last_name
 
 ### *Sql:*
 
+```sql
 --
 -- View structure for view `customer_list`
 --
@@ -466,7 +468,7 @@ SELECT cu.customer_id AS ID, CONCAT(cu.first_name, _utf8' ', cu.last_name) AS na
 	a.phone AS phone, city.city AS city, country.country AS country, IF(cu.active, _utf8'active',_utf8'') AS notes, cu.store_id AS SID 
 FROM customer AS cu JOIN address AS a ON cu.address_id = a.address_id JOIN city ON a.city_id = city.city_id 
 	JOIN country ON city.country_id = country.country_id
-
+```
 ## **<a id='film-list'></a>film_list**
 
 ---
@@ -477,6 +479,7 @@ FROM customer AS cu JOIN address AS a ON cu.address_id = a.address_id JOIN city 
 
 ### *Sql:*
 
+```sql
 --
 -- View structure for view `film_list`
 --
@@ -489,7 +492,7 @@ FROM category LEFT JOIN film_category ON category.category_id = film_category.ca
         JOIN film_actor ON film.film_id = film_actor.film_id 
 	JOIN actor ON film_actor.actor_id = actor.actor_id 
 GROUP BY film.film_id, category.name
-
+```
 ## **<a id='sales-by-store'></a>sales_by_store**
 
 ---
@@ -500,6 +503,7 @@ GROUP BY film.film_id, category.name
 
 ### *Sql:*
 
+```sql
 --
 -- View structure for view `sales_by_store`
 --
@@ -520,7 +524,7 @@ INNER JOIN country AS cy ON c.country_id = cy.country_id
 INNER JOIN staff AS m ON s.manager_staff_id = m.staff_id
 GROUP BY s.store_id
 ORDER BY cy.country, c.city
-
+```
 ## **<a id='sales-by-film-category'></a>sales_by_film_category**
 
 ---
@@ -531,6 +535,7 @@ ORDER BY cy.country, c.city
 
 ### *Sql:*
 
+```sql
 --
 -- View structure for view `sales_by_film_category`
 --
@@ -551,7 +556,7 @@ INNER JOIN film_category AS fc ON f.film_id = fc.film_id
 INNER JOIN category AS c ON fc.category_id = c.category_id
 GROUP BY c.name
 ORDER BY total_sales DESC
-
+```
 ## **<a id='staff-list'></a>staff_list**
 
 ---
@@ -562,6 +567,7 @@ ORDER BY total_sales DESC
 
 ### *Sql:*
 
+```sql
 --
 -- View structure for view `staff_list`
 --
@@ -572,7 +578,7 @@ SELECT s.staff_id AS ID, CONCAT(s.first_name, _utf8' ', s.last_name) AS name, a.
 	city.city AS city, country.country AS country, s.store_id AS SID 
 FROM staff AS s JOIN address AS a ON s.address_id = a.address_id JOIN city ON a.city_id = city.city_id 
 	JOIN country ON city.country_id = country.country_id
-
+```
 ## **<a id='nicer-but-slower-film-list'></a>nicer_but_slower_film_list**
 
 ---
@@ -583,6 +589,7 @@ FROM staff AS s JOIN address AS a ON s.address_id = a.address_id JOIN city ON a.
 
 ### *Sql:*
 
+```sql
 --
 -- View structure for view `nicer_but_slower_film_list`
 --
@@ -597,4 +604,4 @@ FROM category LEFT JOIN film_category ON category.category_id = film_category.ca
         JOIN film_actor ON film.film_id = film_actor.film_id
 	JOIN actor ON film_actor.actor_id = actor.actor_id 
 GROUP BY film.film_id, category.name
-
+```

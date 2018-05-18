@@ -173,8 +173,8 @@ def writeViewDoc(view):
     text += "---\n\n"
     text += "### *Description:*\n\n"
     text += view.comment + "\n\n"
-    text += "### *Sql:*\n\n"
-    text += view.sqlDefinition + "\n\n"  
+    text +=  "### *Sql:*\n\n"
+    text += "```sql" + "\n" + view.sqlDefinition + "\n" + "```" + "\n"  
     return text
 
 
