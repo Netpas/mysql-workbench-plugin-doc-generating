@@ -107,7 +107,7 @@ def writeColumnDoc(column, table):
         # column max lenght if any
         if column.length != -1:
             text += "(" + str(column.length) + ")"
-        if column.characterSetName or column.collationName:
+        if  column.collationName.endswith("_bin"):
             text +=' ' + 'BINARY'
     else:
         text += " | "
@@ -130,7 +130,7 @@ def writeColumnDoc(column, table):
     # column description
     text += " | " + (nl2br(column.comment) if column.comment else " ")
     if 'ENUM' in column.formattedType:
-        text +='`' +  column.formattedType[4:] + '`'
+        text += '`' + column.formattedType[4:] + '`'
     if 'SET' in column.formattedType:
         text +='`' + column.formattedType[3:] + '`'    
     # foreign key
