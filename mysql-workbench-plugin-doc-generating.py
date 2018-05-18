@@ -13,7 +13,7 @@ import mforms
 
 G = {
     "LAST_CHANGE_DATE": [],  # tables last change time; type: int(timestamp)
-    "DEFAULT_DATABASE": None
+    "DEFAULT_DATABASE": None,
 }
 ModuleInfo = DefineModule("ModelDocumentation", author="NETPAS Developers", version="1.2.0",
                           description="Generate Markdown documentation from a model")
@@ -132,18 +132,18 @@ def writeColumnDoc(column, table):
     if 'ENUM' in column.formattedType:
         # text+=str(column.formattedType[4:])
         text += "(  "
-        value_list = column.formattedType[4:][1:-2].split(',')
+        value_list = column.formattedType[4:][2:-2].split(',')
         for value in value_list:
-            value = value.replace("\'","")
+            value = value.replace("'","")
             text += " `" + value + "`, "
         text = text[:-2]
         text += "  )"
             # value.replace()
     if 'SET' in column.formattedType:
         text += "(  "
-        value_list = column.formattedType[3:][1:-2].split(',')
+        value_list = column.formattedType[3:][2:-2].split(',')
         for value in value_list:
-            value = value.replace("\'","")
+            value = value.replace("'","")
             text += " `" + value + "`, "
         text = text[:-2]
         text += "  )"    
