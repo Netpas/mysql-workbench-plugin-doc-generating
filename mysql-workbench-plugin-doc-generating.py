@@ -10,85 +10,72 @@ from wb import *
 import grt
 import mforms
 
+
 G = {
     "LAST_CHANGE_DATE": [],  # tables last change time; type: int(timestamp)
-    "DEFAULT_DATABASE":None
+    "DEFAULT_DATABASE": None
 }
-
 ModuleInfo = DefineModule("ModelDocumentation", author="Yao Lei", version="1.10",
                           description="Generate Markdown documentation from a model")
-
 # This plugin takes no arguments
 @ModuleInfo.plugin("Netpas", caption="Generate documentation (Markdown)",
                    description="description", input=[wbinputs.currentDiagram()], pluginMenu="Utilities")
 @ModuleInfo.export(grt.INT, grt.classes.db_Catalog)
 def documentation(diagram):
-
-    G["DEFAULT_DATABASE"]= [figure for figure in diagram.figures if hasattr(figure, "table")][0].table.owner
+    G["DEFAULT_DATABASE"] = [figure for figure in diagram.figures if hasattr(figure, "table")][0].table.owner
     db_obj = G["DEFAULT_DATABASE"]
     # db name
     title_text = "# {}\n\n".format(db_obj.name)
-
-    body_text = ""
+    table_text = ""
+    view_text = "# *Views*\n\n"
     for figure in diagram.figures:
         if hasattr(figure, "table") and figure.table:
-            body_text += writeTableDoc(figure.table)
-
-    # db comment
+            table_text += writeTableDoc(figure.table)
+        if hasattr(figure,"view") and figure.view:
+            view_text += writeViewDoc(figure.view)
+    # db comment 
     title_text += "*{}*\n\n".format(nl2br(db_obj.comment)) if db_obj.comment else "\n\n"
-
     # db last change date
     last_change_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(max(G["LAST_CHANGE_DATE"])))
     title_text += "{} *{}*\n\n".format("Automatically generate documents. The latest form of document changes by"
                                        , last_change_time)
-
     # Database Structure
     title_text += "![Database Structure](./{}.db.png)\n\n".format(db_obj.name)
-
     # merge text
-    text = title_text + body_text
+    text = title_text + table_text + view_text
     mforms.Utilities.set_clipboard_text(text)
     mforms.App.get().set_status_text("Documentation generated into the clipboard. Paste it to your editor.")
-
     print("Documentation is copied to the clipboard.")
     return 0
+
 
 def writeTableDoc(table):
     # table last change date
     last_change_date = time.mktime(time.strptime(table.owner.lastChangeDate, "%Y-%m-%d %H:%M"))
     G["LAST_CHANGE_DATE"].append(int(last_change_date))
-
     text = ""
     if G["DEFAULT_DATABASE"].name == table.owner.name:
         text = "## **<a id='{}'></a>{}**\n\n".format(table.name.lower().replace("_", "-"), table.name.lower())
-
         text += "---\n\n"
-
         text += "### *Description:*\n\n"
-
         text += table.comment + "\n\n"
-
         text += "### *Columns:*\n\n"
-
         text += "| Column | Data type | Attributes | Default | Description |\n| --- | --- | --- | --- | ---  |\n"
-
         for column in table.columns:
             text += writeColumnDoc(column, table)
         text += "\n\n"
         if len(table.indices):
             text += "### *Indices:*\n\n"
             text += "| Name | Columns | Type | Description |\n| --- | --- | --- | --- |\n"
-
             for index in table.indices:
                 text += writeIndexDoc(index)
-
     text += "\n\n"
     return text
+
 
 def writeColumnDoc(column, table):
     # column attributes
     attribs = []
-
     isPrimary = False
     isUnique = False
     for index in table.indices:
@@ -102,7 +89,6 @@ def writeColumnDoc(column, table):
                 if c.referencedColumn.name == column.name:
                     isUnique = True
                     break
-
     # primary?
     if isPrimary:
         # format label a
@@ -113,7 +99,6 @@ def writeColumnDoc(column, table):
     else:
         # column name
         text = "| `{}`".format(column.name)
-
     # column type name
     if column.simpleType:
         text += " | " + column.simpleType.name
@@ -128,79 +113,68 @@ def writeColumnDoc(column, table):
             text +=' ' +  'COLLATE' + ' ' + column.collationName
     else:
         text += " | "
-
     text += " | "
-
     # primary?
     if isPrimary:
         attribs.append("PRIMARY")
-
     # auto increment?
     if column.autoIncrement == 1:
         attribs.append("Auto increments")
-
     # not null?
     if column.isNotNull == 1:
         attribs.append("Not null")
-
     # unique?
     if isUnique:
         attribs.append("Unique")
-
     text += ", ".join(attribs)
-
     # column default value
     text += " | " + (("`" + column.defaultValue + "`") if column.defaultValue else " ")
-
     # column description
     text += " | " + (nl2br(column.comment) if column.comment else " ")
     if 'ENUM' in column.formattedType:
         text +='`' +  column.formattedType[4:] + '`'
     if 'SET' in column.formattedType:
-        text +='`' + column.formattedType[3:] + '`'
-    
-
+        text +='`' + column.formattedType[3:] + '`'    
     # foreign key
     for fk in table.foreignKeys:
         if fk.columns[0].name == column.name:
             # redirect label a
             fk_filed = fk.referencedColumns[0].name.lower()
             rep_fk_filed = fk.referencedColumns[0].name.lower().replace("_", "-")
-
             fk_table_name = fk.referencedColumns[0].owner.name.lower()
             rep_fk_table_name = fk.referencedColumns[0].owner.name.lower().replace("_", "-")
-
-            text += ("<br /><br />" if column.comment else "") +"REFERENCES" + "  " + "[**{}**](#{}) ".format(fk_table_name, rep_fk_table_name) + "(" + "[**{}**](#{}-{})".format(fk_filed,fk_table_name,rep_fk_filed) + ")"
-            
+            text += ("<br /><br />" if column.comment else "") +"REFERENCES" + "  " + "[**{}**](#{}) ".format(fk_table_name, rep_fk_table_name) + "(" + "[**{}**](#{}-{})".format(fk_filed,fk_table_name,rep_fk_filed) + ")"            
             if fk.updateRule != 'RESTRICT':
                 text += '  ' + 'ON UPDATE' + ' ' + fk.updateRule
             if fk.deleteRule != 'RESTRICT':
                 text += '  ' +  'ON DELETE' + ' ' + fk.deleteRule
             break
-
     # finish
     text += " |" + "\n"
     return text
 
 
-
-
 def writeIndexDoc(index):
     # index name
     text = "| " + index.name
-
     # index columns
     text += " | " + ", ".join(map(lambda x: "`" + x.referencedColumn.name + "`", index.columns))
-
     # index type
     text += " | " + index.indexType
-
     # index description
     text += " | " + (nl2br(index.comment) if index.comment else " ")
-
     # finish
     text += " |\n"
+    return text
 
+
+def writeViewDoc(view):
+    text = "## **<a id='{}'></a>{}**\n\n".format(view.name.lower().replace("_", "-"), view.name.lower())
+    text += "---\n\n"
+    text += "### *Description:*\n\n"
+    text += view.comment + "\n\n"
+    text +=  "### *Sql:*\n\n"
+    text += "```sql" + "\n" + view.sqlDefinition + "\n" + "```" + "\n"  
     return text
 
 
